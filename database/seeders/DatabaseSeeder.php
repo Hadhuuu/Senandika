@@ -3,23 +3,33 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Memanggil seeder gejala
+        $this->call(SymptomSeeder::class);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Akun Admin / Konselor
+        User::create([
+            'nim' => 'admin01',
+            'name' => 'Psikolog Kampus',
+            'password' => Hash::make('password123'),
+            'role' => 'admin',
+            'is_profile_completed' => true, // Admin tidak perlu isi onboarding
+        ]);
+
+        // Akun Mahasiswa
+        User::create([
+            'nim' => '12345678',
+            'name' => 'Mahasiswa Dummy',
+            'password' => Hash::make('password123'),
+            'role' => 'mahasiswa',
+            // Kita set false agar saat login, dia dipaksa masuk ke halaman Onboarding dulu
+            'is_profile_completed' => false, 
         ]);
     }
 }

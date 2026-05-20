@@ -14,19 +14,26 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    // Izinkan semua kolom diisi (mass assignment)
+    protected $guarded = ['id'];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_profile_completed' => 'boolean',
         ];
+    }
+    
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class);
     }
 }
