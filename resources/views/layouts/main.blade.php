@@ -29,11 +29,17 @@
     </script>
 </head>
 <body class="bg-cream text-[#1C2B2A] flex flex-col min-h-screen m-0">
+    @php
+        $homeUrl = url('/');
+        if (Auth::check()) {
+            $homeUrl = Auth::user()->role === 'admin' ? route('admin.dashboard') : route('mahasiswa.dashboard');
+        }
+    @endphp
 
     <nav class="bg-white/70 backdrop-blur-lg border-b border-mint-soft/20 fixed w-full z-50 top-0 transition-all">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <a href="{{ url('/') }}" class="flex items-center gap-2">
+                <a href="{{ $homeUrl }}" class="flex items-center gap-2">
                     <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
                         <rect x="15" y="20" width="70" height="50" rx="25" fill="#1F3F3D"/>
                         <path d="M40 70 L50 85 L60 70" fill="#1F3F3D"/>
@@ -43,9 +49,9 @@
                 </a>
 
                 <div class="hidden md:flex space-x-8">
-                    <a href="{{ url('/') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Beranda</a>
-                    <a href="#" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Tentang Kami</a>
-                    <a href="#" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Kontak Darurat</a>
+                    <a href="{{ $homeUrl }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Beranda</a>
+                    <a href="{{ route('tentang-kami') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Tentang Kami</a>
+                    <a href="{{ route('kontak-darurat') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Kontak Darurat</a>
                 </div>
 
                 <div class="flex items-center gap-4">

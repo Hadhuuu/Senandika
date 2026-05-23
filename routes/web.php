@@ -5,10 +5,18 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KuesionerController;
 
 
-// Jika belum login, halaman utama diarahkan ke login
+// Halaman Landing Page
 Route::get('/', function () {
-    return redirect('/login');
+    return view('welcome');
 });
+
+Route::get('/tentang-kami', function () {
+    return view('tentang-kami');
+})->name('tentang-kami');
+
+Route::get('/kontak-darurat', function () {
+    return view('kontak-darurat');
+})->name('kontak-darurat');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
