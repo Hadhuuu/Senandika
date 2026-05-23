@@ -33,6 +33,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
     Route::post('/admin/assessment/{id}/status', [App\Http\Controllers\AdminController::class, 'updateStatus'])->name('admin.updateStatus');
     Route::get('/admin/assessment/{id}', [App\Http\Controllers\AdminController::class, 'showDetail'])->name('admin.detail');
+    
+    // --- RUTE MASTER DATA MANAGEMENT (SYMPTOMS) ---
+    Route::resource('admin/symptoms', App\Http\Controllers\SymptomController::class, [
+        'names' => [
+            'index' => 'admin.symptoms.index',
+            'create' => 'admin.symptoms.create',
+            'store' => 'admin.symptoms.store',
+            'show' => 'admin.symptoms.show',
+            'edit' => 'admin.symptoms.edit',
+            'update' => 'admin.symptoms.update',
+            'destroy' => 'admin.symptoms.destroy',
+        ]
+    ]);
+
+    // --- RUTE ANALYTICS API (untuk Dashboard Grafik) ---
+    Route::prefix('api/analytics')->name('api.analytics.')->group(function () {
+        Route::get('monthly-urgency', [App\Http\Controllers\AnalyticsController::class, 'monthlyUrgency'])->name('monthly_urgency');
+        Route::get('category-distribution', [App\Http\Controllers\AnalyticsController::class, 'categoryDistribution'])->name('category_distribution');
+        Route::get('status-summary', [App\Http\Controllers\AnalyticsController::class, 'statusSummary'])->name('status_summary');
+        Route::get('dashboard-stats', [App\Http\Controllers\AnalyticsController::class, 'dashboardStats'])->name('dashboard_stats');
+        Route::get('dominant-category', [App\Http\Controllers\AnalyticsController::class, 'dominantCategoryAnalysis'])->name('dominant_category');
+    });
     // Rute Mahasiswa Kuesioner
     Route::get('/mahasiswa/consent', [KuesionerController::class, 'showConsent'])->name('kuesioner.consent');
     Route::post('/mahasiswa/consent', [KuesionerController::class, 'acceptConsent'])->name('kuesioner.accept');
