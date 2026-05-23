@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KuesionerController;
+use App\Http\Controllers\ReportController;
 
 
 // Halaman Landing Page
@@ -48,4 +49,10 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard Mahasiswa
     Route::get('/mahasiswa/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('mahasiswa.dashboard');
+
+    // Route untuk Admin mengunduh rekapitulasi Excel
+    Route::get('/admin/ekspor-excel', [ReportController::class, 'eksporExcelAdmin'])->name('admin.export.excel');
+
+    // Route untuk Konselor mencetak berkas PDF sebelum konseling
+    Route::get('/konselor/cetak-pdf/{id}', [ReportController::class, 'cetakRekamPsikologisPDF'])->name('konselor.cetak.pdf');
 });
