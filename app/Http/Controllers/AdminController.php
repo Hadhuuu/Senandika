@@ -9,18 +9,37 @@ use Illuminate\Support\Facades\Auth;
 class AdminController extends Controller
 {
     // Menampilkan Dashboard Utama Admin
-    public function index()
+    public function index(Request $request)
     {
         // Proteksi ekstra: Pastikan hanya admin yang bisa masuk
         if (Auth::user()->role !== 'admin') {
             abort(403, 'Akses Ditolak. Anda bukan Admin.');
         }
 
-        // Ambil semua data asesmen, gabungkan dengan tabel users
-        // Urutkan dari skor CF tertinggi (DESC)
-        $assessments = Assessment::with('user')
-            ->orderBy('final_score', 'desc')
-            ->get();
+        $query = Assessment::with('user');
+
+        // Filter Pencarian (Nama / NIM)
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->whereHas('user', function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('nim', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter berdasarkan Status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter berdasarkan Kategori
+        if ($request->filled('category')) {
+            $query->where('dominant_category', $request->category);
+        }
+
+        // Ambil data, urutkan dari skor CF tertinggi (DESC), dan beri paginasi
+        $perPage = $request->input('per_page', 10);
+        $assessments = $query->orderBy('final_score', 'desc')->paginate($perPage)->appends($request->query());
 
         return view('admin.dashboard', compact('assessments'));
     }
@@ -40,6 +59,23 @@ class AdminController extends Controller
         ]);
 
         return back()->with('success', 'Status penanganan berhasil diperbarui!');
+    }
+
+    // Mengubah status penanganan secara massal (sekaligus dengan status berbeda-beda)
+    public function saveAllStatus(Request $request)
+    {
+        if (Auth::user()->role !== 'admin') abort(403);
+
+        $request->validate([
+            'statuses' => 'required|array',
+            'statuses.*' => 'in:Belum Diproses,Menunggu Jadwal,Sedang Konseling,Selesai'
+        ]);
+
+        foreach ($request->statuses as $id => $status) {
+            Assessment::where('id', $id)->update(['status' => $status]);
+        }
+
+        return back()->with('success', 'Semua perubahan status berhasil disimpan!');
     }
 
     // Menampilkan detail hasil asesmen

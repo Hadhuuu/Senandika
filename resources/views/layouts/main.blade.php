@@ -51,6 +51,9 @@
 
                 <div class="hidden md:flex space-x-8">
                     <a href="{{ $homeUrl }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Beranda</a>
+                    @if(Auth::check() && Auth::user()->role === 'mahasiswa')
+                        <a href="{{ route('mahasiswa.edukasi') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Pojok Edukasi</a>
+                    @endif
                     <a href="{{ route('tentang-kami') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Tentang Kami</a>
                     <a href="{{ route('kontak-darurat') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Kontak Darurat</a>
                 </div>

@@ -90,17 +90,71 @@
     </div>
 
     <!-- Table Section -->
-    <div class="mb-8">
-        <h2 class="text-2xl font-extrabold text-deep-teal mb-6">📋 Tabel Prioritas Intervensi</h2>
+    <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <h2 class="text-2xl font-extrabold text-deep-teal">📋 Tabel Prioritas Intervensi</h2>
+        
+        <!-- Filter & Search Form -->
+        <form action="{{ route('admin.dashboard') }}" method="GET" id="filterSearchForm" class="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 w-full lg:w-auto">
+            <div class="relative flex-1 lg:w-48">
+                <input type="text" name="search" id="searchInput" value="{{ request('search') }}" placeholder="Cari Nama / NIM..." class="bg-white border border-mint-soft/30 text-[#5F6F6D] text-sm rounded-xl focus:ring-soft-teal focus:border-soft-teal block w-full pl-10 p-2.5 shadow-sm">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-mint-soft" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+            </div>
+            
+            <select name="status" onchange="this.form.submit()" class="bg-white border border-mint-soft/30 text-[#5F6F6D] text-sm rounded-xl focus:ring-soft-teal focus:border-soft-teal block p-2.5 shadow-sm w-full lg:w-auto cursor-pointer">
+                <option value="">Semua Status</option>
+                <option value="Belum Diproses" {{ request('status') == 'Belum Diproses' ? 'selected' : '' }}>Belum Diproses</option>
+                <option value="Menunggu Jadwal" {{ request('status') == 'Menunggu Jadwal' ? 'selected' : '' }}>Menunggu Jadwal</option>
+                <option value="Sedang Konseling" {{ request('status') == 'Sedang Konseling' ? 'selected' : '' }}>Sedang Konseling</option>
+                <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+            </select>
+
+            <select name="category" onchange="this.form.submit()" class="bg-white border border-mint-soft/30 text-[#5F6F6D] text-sm rounded-xl focus:ring-soft-teal focus:border-soft-teal block p-2.5 shadow-sm w-full lg:w-auto cursor-pointer">
+                <option value="">Semua Kategori</option>
+                <option value="Depresi" {{ request('category') == 'Depresi' ? 'selected' : '' }}>Depresi</option>
+                <option value="Kecemasan" {{ request('category') == 'Kecemasan' ? 'selected' : '' }}>Kecemasan</option>
+                <option value="Stres" {{ request('category') == 'Stres' ? 'selected' : '' }}>Stres</option>
+            </select>
+            
+            <select name="per_page" onchange="this.form.submit()" class="bg-white border border-mint-soft/30 text-[#5F6F6D] text-sm rounded-xl focus:ring-soft-teal focus:border-soft-teal block p-2.5 shadow-sm w-full lg:w-auto cursor-pointer">
+                <option value="10" {{ request('per_page', 10) == '10' ? 'selected' : '' }}>10 Baris</option>
+                <option value="25" {{ request('per_page') == '25' ? 'selected' : '' }}>25 Baris</option>
+                <option value="50" {{ request('per_page') == '50' ? 'selected' : '' }}>50 Baris</option>
+            </select>
+            
+            @if(request()->hasAny(['search', 'status', 'category', 'per_page']) && (request('search') || request('status') || request('category') || request('per_page') != 10))
+            <a href="{{ route('admin.dashboard') }}" class="bg-soft-orange text-white p-2.5 rounded-xl hover:bg-red-500 transition-colors shadow-sm flex items-center justify-center" title="Reset Filter">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </a>
+            @endif
+        </form>
     </div>
 
-    <div class="bg-white rounded-[30px] shadow-xl border border-mint-soft/20 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-cream/50 text-deep-teal text-sm font-bold border-b border-mint-soft/20">
-                        <th class="py-4 px-6">Peringkat</th>
-                        <th class="py-4 px-6">Mahasiswa</th>
+    <form action="{{ route('admin.saveAllStatus') }}" method="POST" id="statusForm">
+        @csrf
+        <div class="mb-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+            <div></div> <!-- Spacer -->
+            
+            <!-- Save Changes / Discard Buttons -->
+            <div class="flex items-center gap-3">
+                <a href="{{ route('admin.dashboard') }}" id="btnDiscard" class="hidden bg-gray-200 text-[#5F6F6D] px-5 py-2.5 rounded-xl hover:bg-gray-300 transition-colors text-sm font-bold shadow-sm">
+                    Batal
+                </a>
+                <button type="submit" id="btnSaveAll" class="hidden bg-deep-teal text-white px-5 py-2.5 rounded-xl hover:bg-soft-teal transition-colors text-sm font-bold shadow-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Simpan Perubahan
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-[30px] shadow-xl border border-mint-soft/20 overflow-hidden mb-8">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-cream/50 text-deep-teal text-sm font-bold border-b border-mint-soft/20">
+                            <th class="py-4 px-6">Peringkat</th>
+                            <th class="py-4 px-6">Mahasiswa</th>
                         <th class="py-4 px-6">Kategori Dominan</th>
                         <th class="py-4 px-6 text-center">Skor Urgensi</th>
                         <th class="py-4 px-6">Aksi & Status</th>
@@ -149,20 +203,16 @@
 
                         <td class="py-4 px-6">
                             <div class="flex items-center gap-2">
-                                <form action="{{ route('admin.updateStatus', $data->id) }}" method="POST" class="flex items-center gap-2 flex-1">
-                                    @csrf
-                                    <select name="status" class="bg-white border border-mint-soft/30 text-[#5F6F6D] text-sm rounded-xl focus:ring-soft-teal focus:border-soft-teal block w-full p-2.5 font-medium">
+                                <div class="flex items-center gap-2 flex-1">
+                                    <select name="statuses[{{ $data->id }}]" data-id="{{ $data->id }}" data-original="{{ $data->status }}" onchange="checkChanges()" class="status-select bg-white border border-mint-soft/30 text-[#5F6F6D] text-sm rounded-xl focus:ring-soft-teal focus:border-soft-teal block w-full p-2.5 font-medium cursor-pointer transition-all">
                                         <option value="Belum Diproses" {{ $data->status == 'Belum Diproses' ? 'selected' : '' }}>Belum Diproses</option>
                                         <option value="Menunggu Jadwal" {{ $data->status == 'Menunggu Jadwal' ? 'selected' : '' }}>Menunggu Jadwal</option>
                                         <option value="Sedang Konseling" {{ $data->status == 'Sedang Konseling' ? 'selected' : '' }}>Sedang Konseling</option>
                                         <option value="Selesai" {{ $data->status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                                     </select>
-                                    <button type="submit" class="bg-deep-teal text-white p-2.5 rounded-xl hover:bg-soft-teal transition-colors" title="Simpan Status">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                    </button>
-                                </form>
+                                </div>
 
-                                <a href="{{ route('konselor.cetak.pdf', $data->id) }}" class="bg-soft-teal text-white p-2.5 rounded-xl hover:bg-deep-teal transition-colors flex items-center justify-center" title="Cetak Rekam Psikologis PDF">
+                                <a href="{{ route('konselor.cetak.pdf', $data->id) }}" id="print-btn-{{ $data->id }}" class="bg-soft-teal text-white p-2.5 rounded-xl hover:bg-deep-teal transition-all flex items-center justify-center print-btn" title="Cetak Rekam Psikologis PDF" onclick="if(this.classList.contains('cursor-not-allowed')) return false;">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                                     </svg>
@@ -182,10 +232,92 @@
             </table>
         </div>
     </div>
+    
+    <!-- Paginasi -->
+    <div class="mt-6 mb-8">
+        {{ $assessments->links() }}
+    </div>
+
+    </form>
 </div>
 
 <!-- ApexCharts Scripts -->
 <script>
+    // Menyimpan posisi scroll dan mengembalikan setelah halaman dimuat ulang
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+    });
+
+    window.addEventListener('load', function() {
+        if (sessionStorage.getItem('scrollPosition') !== null) {
+            window.scrollTo(0, sessionStorage.getItem('scrollPosition'));
+            sessionStorage.removeItem('scrollPosition');
+        }
+        
+        // Pindahkan fokus kembali ke kotak pencarian jika pengguna sedang mencari
+        const searchInput = document.getElementById('searchInput');
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('search') && searchInput) {
+            searchInput.focus();
+            // Pindahkan kursor ke akhir teks
+            const val = searchInput.value;
+            searchInput.value = '';
+            searchInput.value = val;
+        }
+    });
+
+    // Auto Submit Search Input dengan Debounce
+    let searchTimeout = null;
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                document.getElementById('filterSearchForm').submit();
+            }, 800); // Tunggu 800ms setelah user berhenti mengetik
+        });
+    }
+
+    function checkChanges() {
+        let hasChanges = false;
+        document.querySelectorAll('.status-select').forEach(select => {
+            const id = select.getAttribute('data-id');
+            const printBtn = document.getElementById('print-btn-' + id);
+
+            if (select.value !== select.getAttribute('data-original')) {
+                hasChanges = true;
+                select.classList.add('border-soft-orange', 'ring-1', 'ring-soft-orange', 'bg-orange-50');
+                
+                // Kunci (Lock) tombol print
+                if (printBtn) {
+                    printBtn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                    printBtn.classList.remove('bg-soft-teal', 'hover:bg-deep-teal');
+                    printBtn.setAttribute('title', 'Simpan perubahan status terlebih dahulu untuk mencetak!');
+                }
+            } else {
+                select.classList.remove('border-soft-orange', 'ring-1', 'ring-soft-orange', 'bg-orange-50');
+                
+                // Buka kunci (Unlock) tombol print
+                if (printBtn) {
+                    printBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                    printBtn.classList.add('bg-soft-teal', 'hover:bg-deep-teal');
+                    printBtn.setAttribute('title', 'Cetak Rekam Psikologis PDF');
+                }
+            }
+        });
+
+        const btnSaveAll = document.getElementById('btnSaveAll');
+        const btnDiscard = document.getElementById('btnDiscard');
+        
+        if (hasChanges) {
+            btnSaveAll.classList.remove('hidden');
+            btnDiscard.classList.remove('hidden');
+        } else {
+            btnSaveAll.classList.add('hidden');
+            btnDiscard.classList.add('hidden');
+        }
+    }
+
     const colors = {
         primary: '#1F3F3D',
         secondary: '#2F5D5A', 

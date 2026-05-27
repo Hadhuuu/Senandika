@@ -31,6 +31,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     // --- RUTE ADMIN / KONSELOR ---
     Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
+    Route::post('/admin/assessment/save-all-status', [App\Http\Controllers\AdminController::class, 'saveAllStatus'])->name('admin.saveAllStatus');
     Route::post('/admin/assessment/{id}/status', [App\Http\Controllers\AdminController::class, 'updateStatus'])->name('admin.updateStatus');
     Route::get('/admin/assessment/{id}', [App\Http\Controllers\AdminController::class, 'showDetail'])->name('admin.detail');
     
@@ -64,6 +65,10 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/mahasiswa/calculate', [KuesionerController::class, 'calculateResult'])->name('kuesioner.calculate');
     Route::get('/mahasiswa/resolusi', [KuesionerController::class, 'showResolution'])->name('kuesioner.resolusi');
+
+    // Rute Edukasi Mahasiswa
+    Route::get('/mahasiswa/edukasi', [App\Http\Controllers\EdukasiController::class, 'index'])->name('mahasiswa.edukasi');
+    Route::get('/mahasiswa/edukasi/{id}', [App\Http\Controllers\EdukasiController::class, 'show'])->name('mahasiswa.edukasi.show');
 
     // Rute Onboarding (Profil)
     Route::get('/mahasiswa/onboarding', [App\Http\Controllers\ProfileController::class, 'showOnboarding'])->name('onboarding.show');

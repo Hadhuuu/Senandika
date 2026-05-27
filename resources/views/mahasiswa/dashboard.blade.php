@@ -92,28 +92,28 @@
             <div>
                 <div class="flex justify-between items-end mb-6 mt-4">
                     <h3 class="text-2xl font-extrabold text-deep-teal">Pojok Edukasi</h3>
-                    <a href="#" class="text-soft-orange font-bold text-sm hover:underline">Lihat Semua</a>
+                    <a href="{{ route('mahasiswa.edukasi') }}" class="text-soft-orange font-bold text-sm hover:underline">Lihat Semua</a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Artikel 1 -->
-                    <div class="bg-white rounded-[24px] p-6 border border-mint-soft/20 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer">
+                    <a href="{{ route('mahasiswa.edukasi.show', 1) }}" class="block bg-white rounded-[24px] p-6 border border-mint-soft/20 shadow-lg hover:shadow-xl transition-all group cursor-pointer hover:-translate-y-1">
                         <div class="h-40 bg-cream rounded-xl mb-4 overflow-hidden relative">
                             <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=400" alt="Belajar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
                         <span class="text-xs font-bold text-soft-teal bg-mint-soft/20 px-3 py-1 rounded-full mb-3 inline-block">Tips Kuliah</span>
                         <h4 class="text-lg font-bold text-deep-teal mb-2 group-hover:text-soft-orange transition-colors">Cara Mencegah Burnout Menjelang Ujian</h4>
                         <p class="text-[#5F6F6D] text-sm line-clamp-2">Tekanan akademik kadang terasa berat. Kenali tanda-tanda burnout dan pelajari cara mengatasinya dengan langkah sederhana.</p>
-                    </div>
+                    </a>
                     
                     <!-- Artikel 2 -->
-                    <div class="bg-white rounded-[24px] p-6 border border-mint-soft/20 shadow-lg hover:shadow-xl transition-shadow group cursor-pointer">
+                    <a href="{{ route('mahasiswa.edukasi.show', 2) }}" class="block bg-white rounded-[24px] p-6 border border-mint-soft/20 shadow-lg hover:shadow-xl transition-all group cursor-pointer hover:-translate-y-1">
                         <div class="h-40 bg-cream rounded-xl mb-4 overflow-hidden relative">
                             <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=400" alt="Meditasi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         </div>
                         <span class="text-xs font-bold text-soft-teal bg-mint-soft/20 px-3 py-1 rounded-full mb-3 inline-block">Self-Care</span>
                         <h4 class="text-lg font-bold text-deep-teal mb-2 group-hover:text-soft-orange transition-colors">Pentingnya Mengambil Jeda 5 Menit</h4>
                         <p class="text-[#5F6F6D] text-sm line-clamp-2">Tidak perlu liburan panjang, cukup jeda 5 menit di sela aktivitasmu bisa mereset tingkat stres secara signifikan.</p>
-                    </div>
+                    </a>
                 </div>
             </div>
 
