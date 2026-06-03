@@ -16,16 +16,34 @@ class SymptomController extends Controller
         }
     }
 
-    // Menampilkan daftar semua gejala
-    public function index()
+    // Menampilkan daftar semua gejala dengan search/filter
+    public function index(Request $request)
     {
         $this->checkAdmin();
         
-        $symptoms = Symptom::orderBy('category')
+        $query = Symptom::query();
+
+        // Search functionality
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where('code', 'like', "%$search%")
+                  ->orWhere('question', 'like', "%$search%")
+                  ->orWhere('category', 'like', "%$search%");
+        }
+
+        // Filter by category if provided
+        if ($request->has('category') && !empty($request->category)) {
+            $query->where('category', $request->category);
+        }
+
+        $symptoms = $query->orderBy('category')
             ->orderBy('code')
             ->paginate(20);
 
-        return view('admin.symptoms.index', compact('symptoms'));
+        // Get unique categories for filter dropdown
+        $categories = Symptom::pluck('category')->unique()->values();
+
+        return view('admin.symptoms.index', compact('symptoms', 'categories'));
     }
 
     // Menampilkan form tambah gejala

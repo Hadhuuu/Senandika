@@ -64,12 +64,29 @@
             <input 
                 type="text" 
                 name="search" 
+                value="{{ request('search') }}"
                 placeholder="Cari berdasarkan kode, pertanyaan, atau kategori..." 
                 class="flex-1 px-4 py-2 border border-mint-soft/30 rounded-xl focus:ring-soft-teal focus:border-soft-teal"
             >
-            <button type="submit" class="bg-deep-teal hover:bg-soft-teal text-white font-bold py-2 px-6 rounded-xl transition-colors">
-                Cari
+            <select 
+                name="category"
+                class="px-4 py-2 border border-mint-soft/30 rounded-xl focus:ring-soft-teal focus:border-soft-teal"
+            >
+                <option value="">-- Semua Kategori --</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat }}" {{ request('category') === $cat ? 'selected' : '' }}>
+                        {{ $cat }}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit" class="bg-deep-teal hover:bg-soft-teal text-white font-bold py-2 px-6 rounded-xl transition-colors whitespace-nowrap">
+                🔍 Cari
             </button>
+            @if(request('search') || request('category'))
+            <a href="{{ route('admin.symptoms.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-xl transition-colors whitespace-nowrap text-center">
+                Reset
+            </a>
+            @endif
         </form>
     </div>
 
@@ -116,6 +133,14 @@
 
                         <td class="py-4 px-6 text-center">
                             <div class="flex justify-center gap-2">
+                                <a href="{{ route('admin.symptoms.show', $symptom) }}" 
+                                   class="bg-soft-teal/10 hover:bg-soft-teal/20 text-soft-teal p-2 rounded-lg transition-colors"
+                                   title="Lihat Detail">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                </a>
                                 <a href="{{ route('admin.symptoms.edit', $symptom) }}" 
                                    class="bg-deep-teal/10 hover:bg-deep-teal/20 text-deep-teal p-2 rounded-lg transition-colors"
                                    title="Edit Gejala">

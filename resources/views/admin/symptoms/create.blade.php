@@ -16,7 +16,6 @@
         <p class="text-[#5F6F6D]">Masukkan pertanyaan/gejala baru beserta kategori dan Certainty Factor (CF) Pakar.</p>
     </div>
 
-    <!-- Validation Errors -->
     @if($errors->any())
         <div class="bg-soft-orange/20 border border-soft-orange text-soft-orange px-6 py-4 rounded-2xl mb-6">
             <p class="font-bold mb-2">Terdapat kesalahan dalam form:</p>
@@ -28,12 +27,10 @@
         </div>
     @endif
 
-    <!-- Form Card -->
     <div class="bg-white rounded-[30px] shadow-xl border border-mint-soft/20 p-8">
         <form action="{{ route('admin.symptoms.store') }}" method="POST" class="space-y-6">
             @csrf
 
-            <!-- Kode Gejala -->
             <div>
                 <label for="code" class="block text-sm font-bold text-deep-teal mb-2">
                     Kode Gejala <span class="text-soft-orange">*</span>
@@ -54,7 +51,6 @@
                 <p class="text-xs text-[#5F6F6D] mt-2">Kode harus unik dan maksimal 10 karakter. Contoh: G01, G02, DEP01</p>
             </div>
 
-            <!-- Pertanyaan/Gejala -->
             <div>
                 <label for="question" class="block text-sm font-bold text-deep-teal mb-2">
                     Pertanyaan/Gejala <span class="text-soft-orange">*</span>
@@ -74,65 +70,61 @@
                 <p class="text-xs text-[#5F6F6D] mt-2">Maksimal 500 karakter</p>
             </div>
 
-            <!-- Kategori -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
+                
+                <div class="flex flex-col">
                     <label for="category" class="block text-sm font-bold text-deep-teal mb-2">
                         Kategori <span class="text-soft-orange">*</span>
                     </label>
-                    <div class="flex gap-2">
-                        <select 
-                            name="category" 
-                            id="category"
-                            class="flex-1 px-4 py-3 border border-mint-soft/30 rounded-xl focus:ring-2 focus:ring-soft-teal focus:border-transparent @error('category') border-soft-orange @enderror"
-                            required
-                        >
-                            <option value="">-- Pilih atau Buat Kategori --</option>
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat }}" {{ old('category') === $cat ? 'selected' : '' }}>{{ $cat }}</option>
-                            @endforeach
-                        </select>
-                        <input 
-                            type="text" 
-                            id="newCategory"
-                            placeholder="Atau ketik kategori baru"
-                            class="flex-1 px-4 py-3 border border-mint-soft/30 rounded-xl focus:ring-2 focus:ring-soft-teal focus:border-transparent"
-                        >
-                    </div>
+                    <select 
+                        name="category" 
+                        id="category"
+                        class="w-full px-4 py-3 border border-mint-soft/30 rounded-xl focus:ring-2 focus:ring-soft-teal focus:border-transparent @error('category') border-soft-orange @enderror"
+                        required
+                    >
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat }}" {{ old('category') === $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-[#5F6F6D] mt-2">Pilih dari kategori yang tersedia</p>
                     @error('category')
                         <p class="text-soft-orange text-sm mt-2">{{ $message }}</p>
                     @enderror
-                    <p class="text-xs text-[#5F6F6D] mt-2">Pilih dari kategori yang ada atau ketik kategori baru</p>
                 </div>
 
-                <!-- CF Pakar -->
-                <div>
+                <div class="flex flex-col">
                     <label for="cf_pakar" class="block text-sm font-bold text-deep-teal mb-2">
                         Certainty Factor (CF) Pakar <span class="text-soft-orange">*</span>
                     </label>
-                    <div class="flex items-center gap-4">
-                        <input 
-                            type="number" 
-                            name="cf_pakar" 
-                            id="cf_pakar"
-                            placeholder="0.00 - 1.00"
-                            class="flex-1 px-4 py-3 border border-mint-soft/30 rounded-xl focus:ring-2 focus:ring-soft-teal focus:border-transparent @error('cf_pakar') border-soft-orange @enderror"
-                            value="{{ old('cf_pakar', '0.80') }}"
-                            min="0"
-                            max="1"
-                            step="0.01"
-                            required
-                        >
-                        <div class="text-3xl font-bold text-soft-orange" id="cfDisplay">0.80</div>
+                    <div class="flex gap-4 items-start">
+                        <div class="flex-1">
+                            <input 
+                                type="number" 
+                                name="cf_pakar" 
+                                id="cf_pakar"
+                                placeholder="0.00 - 1.00"
+                                class="w-full px-4 py-3 border border-mint-soft/30 rounded-xl focus:ring-2 focus:ring-soft-teal focus:border-transparent @error('cf_pakar') border-soft-orange @enderror"
+                                value="{{ old('cf_pakar', '0.80') }}"
+                                min="0"
+                                max="1"
+                                step="0.01"
+                                required
+                            >
+                        </div>
+                        <div class="bg-soft-orange/10 border-2 border-soft-orange rounded-xl px-5 py-2 min-w-fit flex flex-col justify-center items-center text-center">
+                            <p class="text-[10px] text-soft-orange font-bold uppercase tracking-wider mb-0.5">Nilai</p>
+                            <div class="text-2xl font-extrabold text-soft-orange leading-none" id="cfDisplay">0.80</div>
+                        </div>
                     </div>
+                    <p class="text-xs text-[#5F6F6D] mt-2">Range: 0.00 (tidak pasti) hingga 1.00 (sangat pasti)</p>
                     @error('cf_pakar')
                         <p class="text-soft-orange text-sm mt-2">{{ $message }}</p>
                     @enderror
-                    <p class="text-xs text-[#5F6F6D] mt-2">Range: 0.00 (tidak pasti) hingga 1.00 (sangat pasti)</p>
                 </div>
+
             </div>
 
-            <!-- Info Box -->
             <div class="bg-soft-teal/10 border border-soft-teal/30 rounded-2xl p-4">
                 <p class="text-sm text-deep-teal">
                     <strong>💡 Info CF Pakar:</strong> Certainty Factor adalah tingkat kepastian pakar terhadap gejala ini. 
@@ -140,7 +132,6 @@
                 </p>
             </div>
 
-            <!-- Buttons -->
             <div class="flex gap-4 pt-4 border-t border-mint-soft/20">
                 <a href="{{ route('admin.symptoms.index') }}" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-xl transition-colors text-center">
                     Batal
@@ -155,16 +146,15 @@
 </div>
 
 <script>
-// Update CF display value
-document.getElementById('cf_pakar').addEventListener('input', function() {
-    document.getElementById('cfDisplay').textContent = parseFloat(this.value).toFixed(2);
-});
+// Real-time CF Pakar display
+const cfInput = document.getElementById('cf_pakar');
+const cfDisplay = document.getElementById('cfDisplay');
 
-// Handle category input
-document.getElementById('newCategory').addEventListener('blur', function() {
-    if (this.value) {
-        document.getElementById('category').value = this.value;
-    }
-});
+if (cfInput && cfDisplay) {
+    cfInput.addEventListener('input', function() {
+        const value = parseFloat(this.value) || 0;
+        cfDisplay.textContent = value.toFixed(2);
+    });
+}
 </script>
 @endsection
