@@ -37,7 +37,7 @@
         <div class="bg-mint-soft/10 p-8 border-t border-mint-soft/20 text-center">
             <p class="text-[#5F6F6D] text-sm mb-4">Bagikan artikel ini kepada teman yang mungkin membutuhkan:</p>
             <div class="flex justify-center gap-4">
-                <button class="bg-white hover:bg-gray-50 text-[#1F3F3D] p-3 rounded-full shadow-sm border border-mint-soft/30 transition-colors" title="Salin Tautan">
+                <button onclick="navigator.clipboard.writeText(window.location.href).then(() => alert('Tautan berhasil disalin!'))" class="bg-white hover:bg-gray-50 text-[#1F3F3D] p-3 rounded-full shadow-sm border border-mint-soft/30 transition-colors" title="Salin Tautan">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
                 </button>
             </div>
