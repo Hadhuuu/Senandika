@@ -19,6 +19,9 @@ Route::get('/kontak-darurat', function () {
     return view('kontak-darurat');
 })->name('kontak-darurat');
 
+// Rute untuk menampilkan halaman Alur Pelayanan publik
+Route::view('/alur-pelayanan', 'alur_pelayanan')->name('alur-pelayanan');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate']);
@@ -82,4 +85,5 @@ Route::middleware('auth')->group(function () {
 
     // Route untuk Konselor mencetak berkas PDF sebelum konseling
     Route::get('/konselor/cetak-pdf/{id}', [ReportController::class, 'cetakRekamPsikologisPDF'])->name('konselor.cetak.pdf');
+
 });
