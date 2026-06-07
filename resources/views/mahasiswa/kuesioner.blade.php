@@ -55,17 +55,17 @@
 
             <button type="submit" name="cf_user" value="0.4" 
                 class="w-full text-left bg-white/50 border-2 border-mint-soft/30 hover:border-soft-teal hover:bg-white text-[#5F6F6D] hover:text-deep-teal font-semibold py-4 px-6 rounded-2xl transition-all cursor-pointer">
-                Jarang / Sedikit Yakin
+                Beberapa Hari
             </button>
 
             <button type="submit" name="cf_user" value="0.8" 
                 class="w-full text-left bg-white/50 border-2 border-mint-soft/30 hover:border-soft-teal hover:bg-white text-[#5F6F6D] hover:text-deep-teal font-semibold py-4 px-6 rounded-2xl transition-all cursor-pointer">
-                Sering / Cukup Yakin
+                Lebih Dari Separuh Waktu
             </button>
 
             <button type="submit" name="cf_user" value="1.0" 
                 class="w-full text-left bg-white/50 border-2 border-mint-soft/30 hover:border-soft-teal hover:bg-white text-[#5F6F6D] hover:text-deep-teal font-semibold py-4 px-6 rounded-2xl transition-all cursor-pointer">
-                Hampir Setiap Hari / Sangat Yakin
+                Hampir Setiap Hari
             </button>
         </form>
 

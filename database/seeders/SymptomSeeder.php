@@ -11,56 +11,61 @@ class SymptomSeeder extends Seeder
     public function run(): void
     {
         $symptoms = [
+            // KATEGORI DEPRESI (Adaptasi PHQ-9)
             [
                 'code' => 'G01',
-                'question' => 'Merasa sedih, hampa, atau putus asa hampir setiap hari.',
+                'question' => 'Kurang berminat atau bergairah dalam melakukan hal-hal yang biasanya disukai.',
                 'cf_pakar' => 0.8,
                 'category' => 'Depresi'
             ],
             [
                 'code' => 'G02',
-                'question' => 'Kehilangan minat pada hobi atau aktivitas yang biasanya disukai.',
-                'cf_pakar' => 0.7,
+                'question' => 'Merasa murung, sedih, atau putus asa.',
+                'cf_pakar' => 0.9,
                 'category' => 'Depresi'
             ],
             [
                 'code' => 'G03',
-                'question' => 'Merasa sangat lelah atau tidak bertenaga meskipun tidak beraktivitas berat.',
-                'cf_pakar' => 0.5,
+                'question' => 'Sulit tidur, mudah terbangun, atau justru terlalu banyak tidur.',
+                'cf_pakar' => 0.6,
                 'category' => 'Depresi'
             ],
             [
                 'code' => 'G04',
-                'question' => 'Merasa gugup, cemas, atau gelisah secara terus-menerus.',
+                'question' => 'Merasa lelah atau kurang bertenaga hampir setiap saat.',
+                'cf_pakar' => 0.5,
+                'category' => 'Depresi'
+            ],
+
+            // KATEGORI ANXIETY (Adaptasi GAD-7)
+            [
+                'code' => 'G05',
+                'question' => 'Merasa gugup, cemas, atau sangat tegang.',
                 'cf_pakar' => 0.8,
                 'category' => 'Anxiety'
             ],
             [
-                'code' => 'G05',
-                'question' => 'Sulit mengendalikan rasa khawatir yang berlebihan.',
-                'cf_pakar' => 0.7,
+                'code' => 'G06',
+                'question' => 'Tidak mampu menghentikan atau mengendalikan rasa khawatir.',
+                'cf_pakar' => 0.9,
                 'category' => 'Anxiety'
             ],
             [
-                'code' => 'G06',
-                'question' => 'Mengalami detak jantung kencang, sesak napas, atau gemetar tiba-tiba (Panic Attack).',
+                'code' => 'G07',
+                'question' => 'Menjadi mudah marah, jengkel, atau tersinggung.',
+                'cf_pakar' => 0.6,
+                'category' => 'Anxiety'
+            ],
+
+            // KATEGORI PANIC ATTACK
+            [
+                'code' => 'G08',
+                'question' => 'Mengalami serangan panik mendadak (jantung berdebar keras, sesak napas, gemetar) tanpa alasan jelas.',
                 'cf_pakar' => 0.9,
                 'category' => 'Panic Attack'
             ],
-            [
-                'code' => 'G07',
-                'question' => 'Penurunan performa akademik (IPK di bawah 2.5 atau merasa sulit konsentrasi belajar).',
-                'cf_pakar' => 0.6,
-                'category' => 'Akademik'
-            ],
-            [
-                'code' => 'G08',
-                'question' => 'Tidak memiliki akses atau belum pernah mendapatkan bantuan profesional sebelumnya.',
-                'cf_pakar' => 0.5,
-                'category' => 'Urgensi'
-            ],
         ];
-
+        
         foreach ($symptoms as $symptom) {
             Symptom::create($symptom);
         }
