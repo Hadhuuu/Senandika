@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Assessment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\MahasiswaImport;
 
 class AdminController extends Controller
 {
@@ -87,5 +89,23 @@ class AdminController extends Controller
         $assessment = Assessment::with(['user', 'details.symptom'])->findOrFail($id);
 
         return view('admin.detail', compact('assessment'));
+    }
+
+    public function importMahasiswa(Request $request)
+    {
+        if (Auth::user()->role !== 'admin') abort(403);
+
+        $request->validate([
+            'file_excel' => 'required|mimes:xlsx,xls,csv|max:2048'
+        ]);
+
+        try {
+            // Proses import
+            Excel::import(new MahasiswaImport, $request->file('file_excel'));
+            
+            return back()->with('success', 'Data mahasiswa berhasil diimport! Password default mereka adalah: senandika123');
+        } catch (\Exception $e) {
+            return back()->withErrors(['msg' => 'Terjadi kesalahan saat import: ' . $e->getMessage()]);
+        }
     }
 }

@@ -37,6 +37,32 @@
         </div>
     @endif
 
+    @if($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-2xl mb-6">
+            {{ $errors->first() }}
+        </div>
+    @endif
+
+    <div class="bg-gradient-to-r from-deep-teal to-soft-teal rounded-[30px] shadow-xl p-8 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="text-white">
+            <h3 class="text-xl font-extrabold mb-2">Import Data Mahasiswa Baru</h3>
+            <p class="text-mint-soft text-sm font-medium">Unggah data mahasiswa sekaligus menggunakan template Excel (.xlsx). Akun akan dibuat otomatis tanpa merusak data yang sudah ada.</p>
+        </div>
+        
+        <form action="{{ route('admin.importMahasiswa') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-3 w-full md:w-auto">
+            @csrf
+            <label class="bg-white/10 hover:bg-white/20 border border-white/30 text-white cursor-pointer px-5 py-3 rounded-xl transition-all flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                <span class="text-sm font-bold">Pilih File Excel</span>
+                <input type="file" name="file_excel" accept=".xlsx, .xls, .csv" class="hidden" required id="file-upload">
+            </label>
+            
+            <button type="submit" class="bg-soft-orange hover:bg-opacity-90 text-white px-6 py-3 rounded-xl font-bold shadow-md transition-all text-sm">
+                Unggah & Proses
+            </button>
+        </form>
+    </div>
+
     <!-- Statistics Dashboard Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8" id="statsContainer">
         <div class="bg-white rounded-2xl shadow-md border border-mint-soft/20 p-6">

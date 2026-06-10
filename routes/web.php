@@ -85,6 +85,9 @@ Route::middleware('auth')->group(function () {
     // Route untuk Admin mengunduh rekapitulasi Excel
     Route::get('/admin/ekspor-excel', [ReportController::class, 'eksporExcelAdmin'])->name('admin.export.excel');
 
+    // Import Mahasiswa
+    Route::post('/admin/import-mahasiswa', [App\Http\Controllers\AdminController::class, 'importMahasiswa'])->name('admin.importMahasiswa');
+
     // Route untuk Konselor mencetak berkas PDF sebelum konseling
     Route::get('/konselor/cetak-pdf/{id}', [ReportController::class, 'cetakRekamPsikologisPDF'])->name('konselor.cetak.pdf');
 
