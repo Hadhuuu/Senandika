@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
 
         // Akun Mahasiswa
         User::create([
-            'nim' => '12345678',
-            'name' => 'Mahasiswa Dummy',
-            'password' => Hash::make('password123'),
+            'nim' => '1238',
+            'name' => 'Guest',
+            'password' => Hash::make('123'),
             'role' => 'mahasiswa',
             // Kita set false agar saat login, dia dipaksa masuk ke halaman Onboarding dulu
             'is_profile_completed' => false, 

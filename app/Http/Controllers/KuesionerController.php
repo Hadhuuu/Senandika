@@ -90,16 +90,16 @@ class KuesionerController extends Controller
             return redirect()->route('kuesioner.consent');
         }
 
-        // Cek apakah user sedang login atau guest (demo)
-        $user = Auth::check() ? User::find(Auth::id()) : null;
+        // Ambil data user beserta demografinya
+        $user = User::find(Auth::id());
         $symptoms = Symptom::whereIn('id', array_keys($answers))->get();
         
         $cf_gejala_total = 0;
         $category_scores = [];
 
-        // Buat Header Assessment, user_id akan diisi null jika ini guest
+        // Buat Header Assessment
         $assessment = Assessment::create([
-            'user_id' => $user ? $user->id : null,
+            'user_id' => $user->id,
             'status' => 'Belum Diproses'
         ]);
 
@@ -128,28 +128,25 @@ class KuesionerController extends Controller
             $category_scores[$symptom->category] += $cf_gejala;
         }
 
-        // Cari kategori yang paling dominan
-        $dominant_category = !empty($category_scores) ? array_keys($category_scores, max($category_scores))[0] : 'Tidak Diketahui';
+        // Cari kategori penyakit yang paling dominan
+        $dominant_category = array_keys($category_scores, max($category_scores))[0];
 
-        // FASE 2: KALKULASI CF DARI FAKTOR RISIKO DEMOGRAFI
+        // FASE 2: KALKULASI CF DARI FAKTOR RISIKO DEMOGRAFI (DATA KAGGLE)
         $cf_risiko_total = 0;
 
-        // Hanya hitung faktor risiko demografi JIKA user login dan datanya ada
-        if ($user) {
-            // Rule A: Stress Akademik Berat (Tingkat Akhir & IPK Rendah)
-            if ($user->current_year >= 4 && $user->gpa < 2.5) {
-                $cf_risiko_total = $this->combineCF($cf_risiko_total, 0.20);
-            }
+        // Rule A: Stress Akademik Berat (Tingkat Akhir & IPK Rendah)
+        if ($user->current_year >= 4 && $user->gpa < 2.5) {
+            $cf_risiko_total = $this->combineCF($cf_risiko_total, 0.20);
+        }
 
-            // Rule B: Culture Shock Akademik (Mahasiswa Baru)
-            if ($user->current_year == 1) {
-                $cf_risiko_total = $this->combineCF($cf_risiko_total, 0.10);
-            }
+        // Rule B: Culture Shock Akademik (Mahasiswa Baru)
+        if ($user->current_year == 1) {
+            $cf_risiko_total = $this->combineCF($cf_risiko_total, 0.10);
+        }
 
-            // Rule C: Beban Ganda (Sudah Menikah sambil Kuliah)
-            if ($user->marital_status === 'Menikah') {
-                $cf_risiko_total = $this->combineCF($cf_risiko_total, 0.15);
-            }
+        // Rule C: Beban Ganda (Sudah Menikah sambil Kuliah)
+        if ($user->marital_status === 'Menikah') {
+            $cf_risiko_total = $this->combineCF($cf_risiko_total, 0.15);
         }
 
         // FASE 3: GABUNGKAN CF GEJALA & CF RISIKO DEMOGRAFI
@@ -169,7 +166,7 @@ class KuesionerController extends Controller
 
         return redirect()->route('kuesioner.resolusi');
     }
-    
+
     // 6. Halaman Resolusi (Penutup)
     public function showResolution()
     {
