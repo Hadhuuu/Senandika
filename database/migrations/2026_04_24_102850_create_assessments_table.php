@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('assessments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // Tambahkan nullable() di sini agar sistem bisa menyimpan data kuesioner guest
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->decimal('final_score', 5, 2)->default(0); // Hasil gabungan (persentase)
             $table->string('dominant_category')->nullable(); // Kategori paling parah
             $table->enum('status', ['Belum Diproses', 'Menunggu Jadwal', 'Sedang Konseling', 'Selesai'])->default('Belum Diproses');
