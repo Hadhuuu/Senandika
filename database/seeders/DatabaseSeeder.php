@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
         // Akun Mahasiswa
         User::create([
-            'nim' => '1238',
+            'nim' => '123',
             'name' => 'Guest',
             'password' => Hash::make('123'),
             'role' => 'mahasiswa',
