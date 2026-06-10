@@ -62,13 +62,6 @@
             <a href="{{ route('mahasiswa.dashboard') }}" class="w-full bg-deep-teal text-white py-4 rounded-[20px] text-lg font-bold hover:bg-soft-teal transition-all shadow-md inline-block">
                 Kembali ke Beranda
             </a>
-            
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="w-full bg-transparent text-[#5F6F6D] py-3 rounded-[20px] font-bold hover:text-soft-teal transition-colors cursor-pointer">
-                    Keluar Akun
-                </button>
-            </form>
         </div>
 
     </div>

@@ -10,7 +10,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
-            Kembali ke Master Gejala
+            Kembali ke Manajemen Kuesioner
         </a>
         <h1 class="text-3xl font-extrabold text-deep-teal mb-2">Detail Gejala</h1>
         <p class="text-[#5F6F6D]">Informasi lengkap tentang gejala <span class="font-bold">{{ $symptom->code }}</span>.</p>

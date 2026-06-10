@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
 
     <div class="mb-10">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-deep-teal mb-2">Halo, {{ $user->name }} 👋</h1>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-deep-teal mb-2">Halo, {{ $user->name }}!</h1>
         <p class="text-[#5F6F6D] text-lg">Selamat datang di ruang amanmu. Bagaimana perasaanmu hari ini?</p>
     </div>
 

@@ -10,7 +10,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
-            Kembali ke Master Gejala
+            Kembali ke Manajemen Kuesioner
         </a>
         <h1 class="text-3xl font-extrabold text-deep-teal mb-2">Tambah Gejala Baru</h1>
         <p class="text-[#5F6F6D]">Masukkan pertanyaan/gejala baru beserta kategori dan Certainty Factor (CF) Pakar.</p>

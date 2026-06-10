@@ -59,6 +59,21 @@ class KuesionerController extends Controller
         return redirect()->route('kuesioner.show');
     }
 
+    // 4b. Kembali ke Pertanyaan Sebelumnya
+    public function previousQuestion(Request $request)
+    {
+        $answers = $request->session()->get('answers', []);
+
+        if (!empty($answers)) {
+            // Hapus jawaban terakhir dari session
+            array_pop($answers);
+            $request->session()->put('answers', $answers);
+        }
+
+        return redirect()->route('kuesioner.show');
+    }
+
+
     // --- FUNGSI HELPER UNTUK RUMUS CF COMBINE ---
     private function combineCF($cf_old, $cf_new)
     {

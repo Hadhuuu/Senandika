@@ -52,7 +52,7 @@
                 <div class="hidden md:flex space-x-8">
                     <a href="{{ $homeUrl }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Beranda</a>
                     @if(Auth::check() && Auth::user()->role === 'admin')
-                        <a href="{{ route('admin.symptoms.index') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Master Gejala</a>
+                        <a href="{{ route('admin.symptoms.index') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Manajemen Kuesioner</a>
                     @endif
                     @if(Auth::check() && Auth::user()->role === 'mahasiswa')
                         <a href="{{ route('mahasiswa.edukasi') }}" class="text-soft-teal hover:text-deep-teal font-semibold transition-colors">Pojok Edukasi</a>

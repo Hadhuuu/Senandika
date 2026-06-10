@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Master Data Gejala (Symptoms)')
+@section('title', 'Manajemen Kuesioner')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
@@ -8,7 +8,7 @@
     <!-- Header Section -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-            <h1 class="text-3xl font-extrabold text-deep-teal mb-2">Master Data Gejala</h1>
+            <h1 class="text-3xl font-extrabold text-deep-teal mb-2">Manajemen Kuesioner</h1>
             <p class="text-[#5F6F6D]">Kelola daftar gejala, pertanyaan, kategori, dan Certainty Factor (CF) Pakar untuk sistem asesmen.</p>
         </div>
         

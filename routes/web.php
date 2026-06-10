@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/mahasiswa/kuesioner', [KuesionerController::class, 'showQuestion'])->name('kuesioner.show');
     Route::post('/mahasiswa/kuesioner', [KuesionerController::class, 'answerQuestion'])->name('kuesioner.answer');
+    Route::post('/mahasiswa/kuesioner/previous', [KuesionerController::class, 'previousQuestion'])->name('kuesioner.previous');
+
     
     Route::get('/mahasiswa/calculate', [KuesionerController::class, 'calculateResult'])->name('kuesioner.calculate');
     Route::get('/mahasiswa/resolusi', [KuesionerController::class, 'showResolution'])->name('kuesioner.resolusi');
