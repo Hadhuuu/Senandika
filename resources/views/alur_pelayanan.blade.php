@@ -126,7 +126,7 @@
 
             <div class="bg-cream/40 rounded-2xl p-6 border border-mint-soft/10">
                 <h4 class="font-extrabold text-deep-teal text-base mb-4 flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-deep-teal"></span> Tingkat Konversi Variabel Keyakinan ($CF_{User}$)
+                    <span class="w-2.5 h-2.5 rounded-full bg-deep-teal"></span> Tingkat Konversi Variabel Keyakinan 
                 </h4>
                 <div class="grid grid-cols-2 gap-2 text-xs text-[#5F6F6D] font-bold">
                     <div class="bg-white p-3 rounded-xl border border-mint-soft/10 flex items-center">Tidak Pernah (0.0)</div>
