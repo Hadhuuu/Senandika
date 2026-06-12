@@ -25,7 +25,8 @@
                 </div>
                 <div>
                     <p class="text-xs font-bold text-mint-soft uppercase tracking-wider">Total Antrean</p>
-                    <p class="text-xl font-extrabold text-deep-teal">{{ $assessments->where('status', '!=', 'Selesai')->count() }} Mahasiswa</p>
+                    // perbaikan total antrean mahasiswa yang muncul di dashboard
+                    <p class="text-xl font-extrabold text-deep-teal">{{ $assessments->total() }} Mahasiswa</p>                
                 </div>
             </div>
         </div>

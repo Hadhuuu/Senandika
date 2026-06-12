@@ -29,9 +29,13 @@ class AdminController extends Controller
             });
         }
 
-        // Filter berdasarkan Status
-        if ($request->filled('status')) {
+       // Filter berdasarkan Status
+        if ($request->filled('status') && $request->status !== '') {
+            // Jika admin sengaja memilih status tertentu dari dropdown (termasuk jika sengaja memilih 'Selesai')
             $query->where('status', $request->status);
+        } else {
+            // DEFAULT: Jika tidak ada filter yang dipilih, sembunyikan yang sudah 'Selesai' dari antrean
+            $query->where('status', '!=', 'Selesai');
         }
 
         // Filter berdasarkan Kategori
