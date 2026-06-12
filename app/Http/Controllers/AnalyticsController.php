@@ -87,7 +87,7 @@ class AnalyticsController extends Controller
         ]);
     }
 
-    /**
+  /**
      * Get category distribution
      * Returns data for pie chart: Distribusi Kasus per Kategori Gejala
      */
@@ -95,11 +95,10 @@ class AnalyticsController extends Controller
     {
         $this->checkAdmin();
         
-        // Join assessment_details dengan symptoms untuk mendapatkan kategori
-        $data = DB::table('assessment_details')
-            ->join('symptoms', 'assessment_details.symptom_id', '=', 'symptoms.id')
-            ->selectRaw('symptoms.category, COUNT(DISTINCT assessment_details.assessment_id) as total_assessment')
-            ->groupBy('symptoms.category')
+        // Hitung distribusi berdasarkan kategori dominan dari hasil akhir asesmen
+        $data = Assessment::selectRaw('dominant_category as category, COUNT(*) as total_assessment')
+            ->whereNotNull('dominant_category')
+            ->groupBy('dominant_category')
             ->orderByDesc('total_assessment')
             ->get();
 
@@ -108,7 +107,7 @@ class AnalyticsController extends Controller
         $colors = ['#0D9488', '#14B8A6', '#2DD4BF', '#99F6E4', '#CCFBF1', '#F0FDFA'];
 
         foreach ($data as $item) {
-            $categories[] = $item->category;
+            $categories[] = $item->category; // Tetap berfungsi karena di-alias "as category"
             $values[] = $item->total_assessment;
         }
 
